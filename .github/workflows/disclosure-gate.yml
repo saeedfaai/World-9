@@ -1,0 +1,60 @@
+name: World 9 Public Disclosure Gate
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, edited, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  disclosure-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Enforce current public ceiling C0 / D0
+        shell: bash
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+
+          printf '%s\n' "$PR_BODY" | grep -Eq '^Capability-Level:[[:space:]]*C0[[:space:]]*$' || {
+            echo 'BLOCK: public PR must declare Capability-Level: C0'; exit 1; }
+          printf '%s\n' "$PR_BODY" | grep -Eq '^Disclosure-Class:[[:space:]]*D0[[:space:]]*$' || {
+            echo 'BLOCK: public PR must declare Disclosure-Class: D0'; exit 1; }
+          printf '%s\n' "$PR_BODY" | grep -Eq '^Runtime-Enablement:[[:space:]]*none[[:space:]]*$' || {
+            echo 'BLOCK: public PR must declare Runtime-Enablement: none'; exit 1; }
+          printf '%s\n' "$PR_BODY" | grep -Eq '^External-Effects:[[:space:]]*none[[:space:]]*$' || {
+            echo 'BLOCK: public PR must declare External-Effects: none'; exit 1; }
+          printf '%s\n' "$PR_BODY" | grep -Eq '^Secrets-or-Credentials:[[:space:]]*none[[:space:]]*$' || {
+            echo 'BLOCK: public PR must declare Secrets-or-Credentials: none'; exit 1; }
+
+          mapfile -t changed < <(git diff --name-only "$BASE_SHA" "$HEAD_SHA")
+          printf 'Changed files:\n%s\n' "${changed[*]:-none}"
+
+          prohibited='^(runtime/|private/|private-runtime/|credentials/|secrets/|production/|deploy/production/|infra/production/|services/live/|adapters/live/)'
+          for f in "${changed[@]}"; do
+            if [[ "$f" =~ $prohibited ]]; then
+              echo "BLOCK: $f belongs to a restricted/capability-bearing path, not the public repository."
+              exit 1
+            fi
+          done
+
+          # Lightweight high-signal secret check. This is not a replacement for a dedicated secret scanner.
+          if git diff --unified=0 "$BASE_SHA" "$HEAD_SHA" -- . ':!*.md' ':!*.json' | \
+             grep '^+' | grep -Ev '^\+\+\+' | \
+             grep -Eiq '(BEGIN (RSA|OPENSSH|EC|DSA) PRIVATE KEY|sk-[A-Za-z0-9_-]{20,}|sb_secret_[A-Za-z0-9_-]{10,}|gh[pousr]_[A-Za-z0-9]{20,})'; then
+            echo 'BLOCK: possible secret/private key detected in added content.'
+            exit 1
+          fi
+
+          echo 'PUBLIC_DISCLOSURE_GATE=PASS_C0_D0'
