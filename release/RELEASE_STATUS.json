@@ -1,0 +1,15 @@
+{
+  "name": "World 9 / R0.1 — Governed Principal Architecture",
+  "date": "2026-08-29",
+  "status": "FINAL_RESEARCH_ARCHITECTURE_BASELINE",
+  "contract_freeze": "NOT_YET",
+  "schema": "NOT_STARTED_BY_DESIGN",
+  "implementation": "NOT_STARTED_FOR_R0_1",
+  "evidence_ceiling": "E1_SPEC",
+  "production_claim": "NOT_CLAIMED",
+  "consciousness_claim": "NOT_CLAIMED",
+  "novelty_claim": "NOT_ESTABLISHED",
+  "world8_semantic_contract": "UNCHANGED",
+  "world8_integration_bindings": "REQUIRED",
+  "next_gate": "CONTRACT_FREEZE_CANDIDATE"
+}
