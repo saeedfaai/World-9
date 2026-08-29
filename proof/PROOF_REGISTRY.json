@@ -1,0 +1,26 @@
+{
+  "architecture": "World 9 / R0.1",
+  "status": "FINAL_RESEARCH_ARCHITECTURE_BASELINE",
+  "evidence_ceiling": "E1_SPEC",
+  "production_claim": "NOT_CLAIMED",
+  "consciousness_claim": "NOT_CLAIMED",
+  "novelty_claim": "NOT_ESTABLISHED",
+  "claims": [
+    {"id":"P01","claim":"Canonical Principal identity is independent of model/provider/session/engine identifiers.","target":"E2","status":"OPEN"},
+    {"id":"P02","claim":"No Principal is ACTIVE without World 8 Entity backing and PrincipalContract.","target":"E2","status":"OPEN"},
+    {"id":"P03","claim":"WorkOrder text alone cannot create effect authority.","target":"E2","status":"OPEN"},
+    {"id":"P04","claim":"Delegated authority cannot widen constrained dimensions.","target":"E2","status":"OPEN"},
+    {"id":"P05","claim":"Aggregate-risk policy blocks forbidden grant/action combinations.","target":"E2","status":"OPEN"},
+    {"id":"P06","claim":"Binding commitments survive Task/WorkOrder/Worker replacement.","target":"E2","status":"OPEN"},
+    {"id":"P07","claim":"Future binding exposure is checked against configured budget periods or explicit exception state.","target":"E2","status":"OPEN"},
+    {"id":"P08","claim":"Terminal WorkOrders do not leak unexplained reservations.","target":"E2","status":"OPEN"},
+    {"id":"P09","claim":"Semantic assessment cannot activate structural refinement failure.","target":"E2","status":"OPEN"},
+    {"id":"P10","claim":"High-risk approval cannot commit without evidence satisfying configured independence policy.","target":"E2","status":"OPEN"},
+    {"id":"P11","claim":"System cannot invent HumanRoot successor from timeout alone.","target":"E2","status":"OPEN"},
+    {"id":"P12","claim":"Migration preserves exclusive canonical write authority under durable source fencing.","target":"E3","status":"OPEN"},
+    {"id":"P13","claim":"Migrating Principal cannot be sole continuity verifier.","target":"E2","status":"OPEN"},
+    {"id":"P14","claim":"Shared Engine preserves authority/credential/budget/commitment isolation.","target":"E3","status":"OPEN"},
+    {"id":"P15","claim":"Principal Layer cannot self-promote outside World 8 Separation of Duties.","target":"E2","status":"OPEN"},
+    {"id":"P16","claim":"No Principal Layer side service becomes a sixth ungoverned canonical plane.","target":"E2","status":"OPEN"}
+  ]
+}
