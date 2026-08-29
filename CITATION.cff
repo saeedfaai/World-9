@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use or discuss this research architecture, please cite this repository and the archived release when a DOI becomes available."
+message: "If you use or discuss this research architecture, please cite the archived R0.1 release."
 title: "World 9 / R0.1 — Governed Principal Architecture"
 type: software
 authors:
@@ -8,4 +8,6 @@ authors:
 version: "R0.1"
 date-released: 2026-08-29
 repository-code: "https://github.com/saeedfaai/World-9"
+doi: "10.5281/zenodo.22153981"
+url: "https://zenodo.org/records/22153981"
 abstract: "A research architecture for engine-independent accountable principals over a World 8 governed substrate, separating canonical principal identity, obligations, bounded authority, resources and accountability from replaceable cognition and execution engines."
