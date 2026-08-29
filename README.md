@@ -96,11 +96,15 @@ Future code, schemas, prompts, tests, deployment recipes, adapters and even docu
 See:
 
 - [`SAFETY_BOUNDARY.md`](SAFETY_BOUNDARY.md)
+- [`SECURITY.md`](SECURITY.md)
 - [`docs/CAPABILITY_DISCLOSURE_RISK_FRAMEWORK.md`](docs/CAPABILITY_DISCLOSURE_RISK_FRAMEWORK.md)
 - [`docs/FRONTIER_RISK_EXPLORER.md`](docs/FRONTIER_RISK_EXPLORER.md)
 - [`docs/R0_2_SAFETY_AMENDMENT_DRAFT.md`](docs/R0_2_SAFETY_AMENDMENT_DRAFT.md)
+- [`docs/IMPLEMENTATION_START_GATE.md`](docs/IMPLEMENTATION_START_GATE.md)
 
-These documents are **NON-CANONICAL until independent review and explicit activation**. They do not assert consciousness, rebellion, AGI, or inevitable loss of control.
+**Executable World 9 implementation is blocked in this public repository.** Capability-bearing runtime work may start only after the implementation-start gate is closed, including a separately verified private runtime repository. Current gate tracking: [Issue #5](https://github.com/saeedfaai/World-9/issues/5).
+
+These R0.2 architecture documents remain **E1_SPEC / safety-amendment candidate** until their review/activation process is closed. They do not assert consciousness, rebellion, AGI, or inevitable loss of control.
 
 ## Repository map
 
