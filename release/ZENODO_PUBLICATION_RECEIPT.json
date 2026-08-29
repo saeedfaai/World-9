@@ -1,11 +1,13 @@
 {
   "published_at_utc": "2026-08-29T04:40:58.302690+00:00",
-  "status": "PUBLISHED_AND_VERIFIED",
+  "final_pdf_verified_at_utc": "2026-08-29T04:44:25.863448+00:00",
+  "status": "PUBLISHED_AND_VERIFIED_WITH_FINAL_PDF",
   "record_id": 22153981,
   "doi": "10.5281/zenodo.22153981",
   "record_url": "https://zenodo.org/records/22153981",
   "world9_commit_sha": "40a172f4edc9df2f60d15337c5fd7d606af71bf8",
   "evidence_ceiling": "E1_SPEC",
+  "same_record_same_doi": true,
   "files": [
     {
       "name": "00_World_9_R0_1_SOURCE_TREE.zip",
@@ -26,6 +28,11 @@
       "name": "03_CITATION.cff",
       "sha256": "56300dfd64583d8565cb04e3d50dc989590f716ada59693d24503a2de9a8aba2",
       "bytes": 663
+    },
+    {
+      "name": "04_World_9_R0_1_COMPLETE_ARCHITECTURE_FINAL.pdf",
+      "sha256": "f4bb9541a426a4d59f37c0ffcda7c99c7b51c48173f67e0d935e5a2711940bbd",
+      "bytes": 438538
     },
     {
       "name": "SHA256SUMS.txt",
