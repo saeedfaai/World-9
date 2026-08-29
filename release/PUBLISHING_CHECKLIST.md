@@ -16,7 +16,7 @@
 - [x] Citation metadata published
 - [x] Public review request text published
 - [x] Public review issue opened (#1)
-- [ ] Final architecture PDF attached to an archival/public release
+- [x] Final architecture PDF attached to archival/public release and SHA-256 verified
 - [x] DOI/archive minted — 10.5281/zenodo.22153981
 - [x] DOI added to CITATION.cff and README
 - [x] External archive checksum/manifest verified by automation
