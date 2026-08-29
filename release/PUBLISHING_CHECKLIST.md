@@ -1,0 +1,23 @@
+# Publishing Checklist
+
+- [x] Public repository created
+- [x] R0.1 status published
+- [x] README/public front door published
+- [x] Architecture Master published
+- [x] World 8 ↔ World 9 Binding Contract published
+- [x] State machines / forbidden transitions published
+- [x] Invariants / falsifiers published
+- [x] Threat model published
+- [x] Review disposition published
+- [x] Proof Registry published with no false E2/E3 PASS
+- [x] Schema gate published
+- [x] Controlled experiment plan published
+- [x] Explicit non-claims published
+- [x] Citation metadata published
+- [x] Public review request text published
+- [ ] Final architecture PDF attached to an archival/public release
+- [ ] DOI/archive (e.g. Zenodo) minted
+- [ ] DOI added to CITATION.cff and README
+- [ ] Public review issue opened
+- [ ] External archive checksum/manifest verified
+- [ ] Outreach posts prepared/published
