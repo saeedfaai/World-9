@@ -8,12 +8,16 @@
 > **Executable proof:** OPEN  
 > **Consciousness / sentience / AGI claim:** NONE
 
-## Archived snapshot / DOI
+## Archived snapshot / persistent preservation
 
 **Zenodo DOI:** https://doi.org/10.5281/zenodo.22153981  
-**Zenodo record:** https://zenodo.org/records/22153981
+**Zenodo record:** https://zenodo.org/records/22153981  
+**Software Heritage revision:** `swh:1:rev:cc9dfbdff6684657080df83ee4bfcb22d043efe8`  
+**Software Heritage directory:** `swh:1:dir:faca94ab04386be496080a0f7cd065eb74046f92`  
+**Software Heritage snapshot:** `swh:1:snp:f8149216bbd789c21fd85d2724119ffad4ce8b03`  
+**LinkedIn launch:** https://www.linkedin.com/feed/update/urn:li:ugcPost:7499327230741901312/
 
-The Zenodo record is the immutable R0.1 research snapshot. This GitHub repository remains the living canonical source for subsequent review, correction, and implementation work.
+The Zenodo record is the immutable R0.1 research snapshot. Software Heritage independently preserves the frozen Git baseline. This GitHub repository remains the living canonical source for subsequent review, correction, and implementation work.
 
 ## Central separation
 
@@ -84,6 +88,7 @@ No executable E2/E3 claim is marked PASS in this repository until actual tests a
 - [`docs/THREAT_MODEL.md`](docs/THREAT_MODEL.md) — adversarial/systemic threats
 - [`docs/REVIEW_DISPOSITION.md`](docs/REVIEW_DISPOSITION.md) — disposition of DeepSeek, Claude, Grok, and Perplexity review findings
 - [`proof/PROOF_REGISTRY.json`](proof/PROOF_REGISTRY.json) — honest proof registry
+- [`release/`](release/) — publication receipts, preservation evidence, and release metadata
 - [`schemas/README.md`](schemas/README.md) — schema gate; intentionally no schema yet
 
 ## Next gate
