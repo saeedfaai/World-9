@@ -16,6 +16,7 @@
 - [x] Citation metadata published
 - [x] Public review request text published
 - [x] Public review issue opened (#1)
+- [x] GitHub R0.1 release published with PDF + proof/preservation assets
 - [x] Final architecture PDF attached to archival/public release and SHA-256 verified
 - [x] DOI/archive minted — 10.5281/zenodo.22153981
 - [x] DOI added to CITATION.cff and README
@@ -29,6 +30,7 @@
 
 ## Persistent preservation identifiers
 
+- GitHub release: https://github.com/saeedfaai/World-9/releases/tag/R0.1
 - Zenodo DOI: `10.5281/zenodo.22153981`
 - Software Heritage revision: `swh:1:rev:cc9dfbdff6684657080df83ee4bfcb22d043efe8`
 - Software Heritage directory: `swh:1:dir:faca94ab04386be496080a0f7cd065eb74046f92`
