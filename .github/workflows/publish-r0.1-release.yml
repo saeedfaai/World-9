@@ -1,0 +1,70 @@
+name: Publish World 9 R0.1 GitHub Release
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/publish-r0.1-release.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify release inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s docs/ARCHITECTURE_MASTER.md
+          test -s proof/PROOF_REGISTRY.json
+          test -s release/ZENODO_PUBLICATION_RECEIPT.json
+          test -s release/SOFTWARE_HERITAGE_RECEIPT.json
+          test -s release/GITHUB_RELEASE_NOTES.md
+          grep -q '10.5281/zenodo.22153981' CITATION.cff
+
+      - name: Download and verify final architecture PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 'https://zenodo.org/records/22153981/files/04_World_9_R0_1_COMPLETE_ARCHITECTURE_FINAL.pdf?download=1' -o World_9_R0_1_COMPLETE_ARCHITECTURE_FINAL.pdf
+          echo 'f4bb9541a426a4d59f37c0ffcda7c99c7b51c48173f67e0d935e5a2711940bbd  World_9_R0_1_COMPLETE_ARCHITECTURE_FINAL.pdf' | sha256sum -c -
+
+      - name: Create immutable R0.1 release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view R0.1 >/dev/null 2>&1; then
+            echo 'R0.1 release already exists; verifying assets.'
+          else
+            gh release create R0.1 \
+              --target "$GITHUB_SHA" \
+              --title 'World 9 / R0.1 — Governed Principal Architecture' \
+              --notes-file release/GITHUB_RELEASE_NOTES.md \
+              World_9_R0_1_COMPLETE_ARCHITECTURE_FINAL.pdf \
+              docs/ARCHITECTURE_MASTER.md \
+              proof/PROOF_REGISTRY.json \
+              release/ZENODO_PUBLICATION_RECEIPT.json \
+              release/SOFTWARE_HERITAGE_RECEIPT.json
+          fi
+          gh release view R0.1 --json url,tagName,targetCommitish,assets > release/GITHUB_RELEASE_RECEIPT.json
+          cat release/GITHUB_RELEASE_RECEIPT.json
+
+      - name: Commit GitHub release receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --rebase || true
+          git add release/GITHUB_RELEASE_RECEIPT.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'publication: record R0.1 GitHub release [skip ci]'
+            git push
+          fi
