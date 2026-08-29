@@ -8,6 +8,13 @@
 > **Executable proof:** OPEN  
 > **Consciousness / sentience / AGI claim:** NONE
 
+## Archived snapshot / DOI
+
+**Zenodo DOI:** https://doi.org/10.5281/zenodo.22153981  
+**Zenodo record:** https://zenodo.org/records/22153981
+
+The Zenodo record is the immutable R0.1 research snapshot. This GitHub repository remains the living canonical source for subsequent review, correction, and implementation work.
+
 ## Central separation
 
 ```text
