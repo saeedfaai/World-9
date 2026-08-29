@@ -15,9 +15,9 @@
 - [x] Explicit non-claims published
 - [x] Citation metadata published
 - [x] Public review request text published
+- [x] Public review issue opened (#1)
 - [ ] Final architecture PDF attached to an archival/public release
 - [ ] DOI/archive (e.g. Zenodo) minted
 - [ ] DOI added to CITATION.cff and README
-- [ ] Public review issue opened
 - [ ] External archive checksum/manifest verified
 - [ ] Outreach posts prepared/published
