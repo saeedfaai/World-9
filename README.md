@@ -78,6 +78,30 @@ R0.1 is a **research architecture baseline**. It does not claim production readi
 
 No executable E2/E3 claim is marked PASS in this repository until actual tests and evidence exist.
 
+## Safety & disclosure boundary — R0.2 candidate amendment
+
+The already-archived R0.1 snapshot remains unchanged. A prospective R0.2 safety amendment is being reviewed to govern future disclosure as capability increases.
+
+Current public material is classified as:
+
+- `C0 — Specification Only`
+- `D0 — Public`
+
+Core publication rule:
+
+> **Open science does not require unrestricted capability transfer.**
+
+Future code, schemas, prompts, tests, deployment recipes, adapters and even documentation are classified by what they materially enable — not by file type. Artifacts that enable real credentials, privileged external effects, self-directed development, replication, strong autonomous persistence or containment-bypass-sensitive capability may require controlled or restricted access.
+
+See:
+
+- [`SAFETY_BOUNDARY.md`](SAFETY_BOUNDARY.md)
+- [`docs/CAPABILITY_DISCLOSURE_RISK_FRAMEWORK.md`](docs/CAPABILITY_DISCLOSURE_RISK_FRAMEWORK.md)
+- [`docs/FRONTIER_RISK_EXPLORER.md`](docs/FRONTIER_RISK_EXPLORER.md)
+- [`docs/R0_2_SAFETY_AMENDMENT_DRAFT.md`](docs/R0_2_SAFETY_AMENDMENT_DRAFT.md)
+
+These documents are **NON-CANONICAL until independent review and explicit activation**. They do not assert consciousness, rebellion, AGI, or inevitable loss of control.
+
 ## Repository map
 
 - [`STATUS.md`](STATUS.md) — current release/evidence status
