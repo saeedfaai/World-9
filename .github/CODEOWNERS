@@ -1,0 +1,10 @@
+# World 9 public research/governance repository
+* @saeedfaai
+
+# Safety/disclosure governance requires explicit owner review.
+SECURITY.md @saeedfaai
+SAFETY_BOUNDARY.md @saeedfaai
+docs/CAPABILITY_DISCLOSURE_RISK_FRAMEWORK.md @saeedfaai
+docs/FRONTIER_RISK_EXPLORER.md @saeedfaai
+docs/IMPLEMENTATION_START_GATE.md @saeedfaai
+.github/workflows/disclosure-gate.yml @saeedfaai
