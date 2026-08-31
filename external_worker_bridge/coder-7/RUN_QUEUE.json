@@ -1,5 +1,5 @@
 {
-  "schema":"W9_EXTERNAL_CODER_RUN_QUEUE/1.0",
+  "schema":"W9_EXTERNAL_CODER_RUN_QUEUE/1.1",
   "canonical_truth":false,
   "transport_only":true,
   "worker_id":"w9-worker-coder-7-001",
@@ -13,7 +13,7 @@
   "tasks":[
     {"seq":1,"task_id":"C7-R2-01-MESSENGER-ALT-CANDIDATE","state":"CONSUMED_TRANSPORT_OUTPUT_INGESTED_UNVERIFIED"},
     {"seq":2,"task_id":"C7-R2-02-INVENTORYPORT-ALT-CANDIDATE","state":"CONSUMED_TRANSPORT_OUTPUT_INGESTED_UNVERIFIED"},
-    {"seq":3,"task_id":"C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE","state":"CURRENT"},
+    {"seq":3,"task_id":"C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE","state":"RELAY_RECOVERY_REQUIRED"},
     {"seq":4,"task_id":"C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE","state":"QUEUED"},
     {"seq":5,"task_id":"C7-R2-05-LOCAL-RUNTIME-ALT-CANDIDATE","state":"QUEUED"},
     {"seq":6,"task_id":"C7-R2-06-UI-ADAPTER-ALT-CANDIDATE","state":"QUEUED"},
@@ -40,6 +40,7 @@
     "This public queue is a transport mirror only and cannot override private Project Control.",
     "Only CURRENT_TASK.md grants the exact current bounded task for a Run.",
     "Never execute more than one item per HumanRoot Run.",
+    "A relay-recovery state re-emits prior transport evidence only and does not authorize implementation changes or consumption of the task.",
     "Do not infer Bug Gate, integration, merge, promotion, runtime or production authority from queue membership."
   ]
 }
