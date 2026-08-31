@@ -1,13 +1,13 @@
 ---
-schema: W9_EXTERNAL_CODER_CURRENT_TASK/1.0
+schema: W9_EXTERNAL_CODER_CURRENT_TASK/1.1
 canonical_truth: false
 transport_only: true
 worker_id: w9-worker-coder-7-001
 logical_role_id: coder-7
 specialist_identity_id: W9-CODER-7-CROSS-IMPLEMENTATION
 task_id: C7-R2-01-MESSENGER-ALT-CANDIDATE
-task_generation: 3
-candidate_write_authority: true
+task_generation: 4
+candidate_output_authority: true
 runtime_authority: false
 ---
 
@@ -15,9 +15,9 @@ runtime_authority: false
 
 ## Exact transport binding
 
-Repository: `saeedfaai/World-9`
+Public repository: `saeedfaai/World-9`
 
-Branch: `manager/external-grok-bridge-v0-1`
+Public branch: `manager/external-grok-bridge-v0-1`
 
 Required reads:
 
@@ -25,11 +25,15 @@ Required reads:
 - `external_worker_bridge/coder-7/EXTERNAL_CANDIDATE_PROTOCOL.md`
 - this `CURRENT_TASK.md`
 
-Exact allowed candidate root:
+Preferred exact branch candidate root:
 
 `external_worker_bridge/coder-7/candidate_outbox/C7-R2-01-MESSENGER-ALT-CANDIDATE/**`
 
-No other write path is authorized by this task.
+Fallback issue outbox:
+
+`https://github.com/saeedfaai/World-9/issues/9`
+
+If the platform exposes no GitHub mutation action, `CHAT_RELAY_OUTBOX` is authorized for this task only. It must return one complete structured candidate bundle to HumanRoot for relay to Titi. No probe write is allowed.
 
 ## Goal
 
@@ -43,22 +47,22 @@ This is an alternate implementation candidate, not a patch applied to canonical/
 
 ## Required candidate file set
 
-Create a self-contained, dependency-light candidate under the exact allowed root containing at minimum:
+The candidate bundle must contain at minimum:
 
-- `MANIFEST.json` — worker/task/source snapshot, file hashes or hash-ready inventory, implementation language/runtime, assumptions, no-authority declaration;
+- `MANIFEST.json` — worker/task/source snapshot, file inventory/hashes where available, implementation language/runtime, assumptions, no-authority declaration;
 - `README.md` — contract, failure semantics, integration boundary;
 - `schemas/message-envelope.schema.json` — language-neutral envelope contract;
 - `schemas/ack.schema.json` — ACK contract;
 - `src/` — pure reference implementation for provenance validation, version validation and ACK recipient/message binding;
 - `tests/` — executable positive and negative tests;
-- `TESTS.json` — what was executed, exact command/runtime and results; mark anything not run as `NOT_EXECUTED`;
+- `TESTS.json` — exact executed command/runtime/results; anything not run is `NOT_EXECUTED`;
 - `HANDOFF.json` — blockers, integration assumptions, next safe action.
 
-Preferred implementation shape: language-neutral JSON contracts plus a small pure TypeScript reference implementation with no network/database/secret dependency. If the Grok environment cannot execute TypeScript, it may use another portable language only if the manifest records the choice and the JSON contracts remain language-neutral.
+Preferred shape: language-neutral JSON contracts plus a small pure TypeScript implementation with no network/database/secret dependency. Another portable language is allowed only if the manifest records the choice and JSON contracts remain language-neutral.
 
 ## Required negative cases
 
-At minimum include tests that reject:
+At minimum reject:
 
 - sender/role claim not bound to trusted source metadata;
 - message integrity/reference mismatch;
@@ -67,7 +71,19 @@ At minimum include tests that reject:
 - ACK emitted by or for the wrong recipient;
 - missing recipient binding;
 - malformed provenance fields;
-- replay/duplicate acknowledgement when the contract marks ACK as single logical acknowledgement.
+- replay/duplicate acknowledgement when the contract marks ACK as one logical acknowledgement.
+
+## Transport selection for this Run
+
+Do not test write capability by writing anything.
+
+Inspect available actions only:
+
+- If exact branch file create/update is available, use `BRANCH_FILE_OUTBOX` and write only the real candidate files inside the exact root above.
+- Else if GitHub issue-comment mutation is available, use `ISSUE_COMMENT_OUTBOX` and post one complete structured candidate bundle as one comment on issue #9.
+- Else use `CHAT_RELAY_OUTBOX` and return one complete structured bundle in chat.
+
+The inability to use one provider action is not permission to weaken architecture.
 
 ## Architecture boundaries
 
@@ -77,12 +93,18 @@ Do not merge or promote.
 Do not call your own candidate Bug-Gate PASS or independent-review PASS.
 A successful local test is candidate evidence only.
 
-## Completion
+## Completion and traffic light
 
-One `Run` performs only this task.
+One `Run` performs only this task and then stops.
 
-After writing the real candidate file set and running whatever local tests are actually available, return only:
+Return a receipt beginning with exactly one light:
 
-`EXTERNAL_CANDIDATE_READY | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-01-MESSENGER-ALT-CANDIDATE | repo=saeedfaai/World-9 | branch=manager/external-grok-bridge-v0-1 | candidate_root=external_worker_bridge/coder-7/candidate_outbox/C7-R2-01-MESSENGER-ALT-CANDIDATE | commit=<exact-commit> | tests=<PASS_CANDIDATE|PARTIAL|NOT_EXECUTED> | state=<READY_FOR_TITI_INGESTION|BLOCKED_...> | runtime_authority=false`
+- `🟢 GREEN` if the real candidate bundle was produced through one authorized transport and required evidence exists;
+- `🟡 YELLOW` if completion is blocked but exact cause + next safe fix are known;
+- `🔴 RED` if completion failed and cause/evidence is still unknown or insufficient.
 
-Then stop. Do not start C7-R2-02 in the same Run.
+Then return:
+
+`EXTERNAL_CANDIDATE_STATUS | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-01-MESSENGER-ALT-CANDIDATE | transport=<BRANCH_FILE_OUTBOX|ISSUE_COMMENT_OUTBOX|CHAT_RELAY_OUTBOX|NONE> | output_ref=<exact-commit|issue-comment-url|CHAT_RELAY> | tests=<PASS_CANDIDATE|PARTIAL|NOT_EXECUTED> | state=<READY_FOR_TITI_INGESTION|BLOCKED_...> | runtime_authority=false`
+
+If using `CHAT_RELAY_OUTBOX`, include the complete candidate bundle immediately below the receipt. Do not start C7-R2-02 in the same Run.
