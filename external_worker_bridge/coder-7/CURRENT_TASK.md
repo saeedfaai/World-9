@@ -5,8 +5,8 @@ transport_only: true
 worker_id: w9-worker-coder-7-001
 logical_role_id: coder-7
 specialist_identity_id: W9-CODER-7-CROSS-IMPLEMENTATION
-task_id: C7-R2-02-INVENTORYPORT-ALT-CANDIDATE
-task_generation: 5
+task_id: C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE
+task_generation: 6
 candidate_output_authority: true
 runtime_authority: false
 ---
@@ -27,7 +27,7 @@ Required reads:
 
 Preferred exact branch candidate root:
 
-`external_worker_bridge/coder-7/candidate_outbox/C7-R2-02-INVENTORYPORT-ALT-CANDIDATE/**`
+`external_worker_bridge/coder-7/candidate_outbox/C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE/**`
 
 Fallback issue outbox:
 
@@ -37,67 +37,57 @@ If the platform exposes no GitHub mutation action, `CHAT_RELAY_OUTBOX` is author
 
 ## Prior-task boundary
 
-`C7-R2-01-MESSENGER-ALT-CANDIDATE` was delivered through `CHAT_RELAY_OUTBOX` and ingested by Titi as `INGESTED_TRANSPORT_EVIDENCE_UNVERIFIED` with tests `NOT_EXECUTED`. That is enough to consume the bounded output task, but it is not Bug-Gate PASS, integration, merge, promotion, runtime or production evidence.
+`C7-R2-02-INVENTORYPORT-ALT-CANDIDATE` was delivered through `CHAT_RELAY_OUTBOX` and ingested by Titi as transport evidence with worker tests `NOT_EXECUTED`. That is enough to consume the bounded external-output task; it is not Bug-Gate PASS, integration, merge, promotion, runtime or production evidence.
 
-Do not self-review or modify C7-R2-01 in this Run.
+Do not self-review or modify C7-R2-02 in this Run.
 
 ## Goal
 
-Build an independent alternate provider-neutral `InventoryPort` candidate for `W9-INVENTORY/1` without copying private implementation code.
+Build an independent provider-neutral deny-by-default security policy / identity adapter candidate and falsifiers for inventory semantics, without copying private implementation code.
 
-The candidate must keep the canonical writer intentionally unbound and fail closed when writer authority/state is unknown.
-
-Required operation surface:
-
-- `production_receipt`
-- `goods_receipt`
-- `goods_issue`
-- `transfer`
-- `adjustment_request`
-- `inventory_read`
-- `movement_history_read`
-- `pending_approval_read`
+The candidate must treat identity, role, scope, grant freshness and authorization as host/governance inputs. Display text, client payload claims or provider session details must never mint authority.
 
 ## Required semantics
 
-- no client-supplied runtime authority;
-- actor/authority is an input from a trusted host boundary, never inferred from display text;
-- no direct stock overwrite or second inventory truth;
-- inventory reads are derived/reconstructable from governed movement history semantics;
-- command success must return a deterministic receipt/reference;
-- idempotency fingerprint/collision must fail closed;
-- unknown writer state must never be reported as success;
-- `transfer` contract must be atomic at the authoritative writer boundary, but this candidate must not claim the current runtime already provides that property;
-- `adjustment_request` creates an approval request only and must not itself create stock movement;
-- provider/database/session details must not leak into the language-neutral contract;
-- no network, database, secret, migration or production effect in this candidate.
+- deny by default when required identity/authority evidence is missing, stale, revoked, unknown or out of scope;
+- server/host-derived actor identity is distinct from client-supplied command payload;
+- client-supplied `actor`, `role`, `permission`, `capability`, `service_role` or equivalent authority-looking fields must not grant access;
+- stale or revoked grants must fail closed;
+- warehouse/SKU/location scope escalation must be rejected;
+- transfer authorization must cover both source and destination scopes; one-sided scope is insufficient;
+- `adjustment_request` must not permit requester self-approval through the policy layer;
+- AI/read-only identity must not acquire write/effect capabilities;
+- provider/database/session-specific authorization details must not leak into the language-neutral contract;
+- no network, DB, secret, migration or production effect.
 
 ## Required candidate file set
 
-Produce a self-contained candidate bundle containing at minimum:
+Produce a self-contained bundle containing at minimum:
 
 - `MANIFEST.json`
 - `README.md`
-- `schemas/inventory-port.schema.json` or equivalent language-neutral contract documents
+- language-neutral policy/identity schema document(s)
 - `src/` pure reference implementation/types
-- `tests/` positive and negative contract tests
+- `tests/` positive and negative falsifiers
 - `TESTS.json`
 - `HANDOFF.json`
 
-Preferred implementation shape is language-neutral JSON contracts plus a dependency-light TypeScript reference implementation. Another portable language is allowed if recorded in the manifest and the external contract remains language-neutral.
+Preferred implementation shape is language-neutral JSON contracts plus dependency-light TypeScript. Another portable language is allowed if recorded and the external contract remains language-neutral.
 
 ## Required negative cases
 
 At minimum cover/reject:
 
-- missing trusted actor/authority context for command operation;
-- unknown/unbound canonical writer;
-- duplicate idempotency key with different semantic payload;
-- malformed operation payload;
-- adjustment request attempting direct stock movement;
-- transfer with partial/one-sided completion representation;
-- provider-specific raw error leaking past the port boundary;
-- read result that claims committed state when source status is unknown/stale.
+- forged actor identity in client payload;
+- forged role/capability in client payload;
+- missing trusted host actor context;
+- stale grant;
+- revoked grant;
+- warehouse/SKU/location scope escalation;
+- transfer with authority on only one side;
+- requester attempting self-approval;
+- AI/read-only actor attempting any command/effect operation;
+- unknown authorization state.
 
 ## Transport selection for this Run
 
@@ -123,14 +113,8 @@ A successful local test is candidate evidence only.
 
 One `Run` performs only this task and then stops.
 
-Return a receipt beginning with exactly one light:
+Return exactly one light, then:
 
-- `🟢 GREEN` if the real candidate bundle was produced through one authorized transport and required evidence exists;
-- `🟡 YELLOW` if completion is blocked but exact cause + next safe fix are known;
-- `🔴 RED` if completion failed and cause/evidence is still unknown or insufficient.
+`EXTERNAL_CANDIDATE_STATUS | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE | transport=<BRANCH_FILE_OUTBOX|ISSUE_COMMENT_OUTBOX|CHAT_RELAY_OUTBOX|NONE> | output_ref=<exact-commit|issue-comment-url|CHAT_RELAY> | tests=<PASS_CANDIDATE|PARTIAL|NOT_EXECUTED> | state=<READY_FOR_TITI_INGESTION|BLOCKED_...> | runtime_authority=false`
 
-Then return:
-
-`EXTERNAL_CANDIDATE_STATUS | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-02-INVENTORYPORT-ALT-CANDIDATE | transport=<BRANCH_FILE_OUTBOX|ISSUE_COMMENT_OUTBOX|CHAT_RELAY_OUTBOX|NONE> | output_ref=<exact-commit|issue-comment-url|CHAT_RELAY> | tests=<PASS_CANDIDATE|PARTIAL|NOT_EXECUTED> | state=<READY_FOR_TITI_INGESTION|BLOCKED_...> | runtime_authority=false`
-
-If using `CHAT_RELAY_OUTBOX`, include the complete candidate bundle immediately below the receipt. Do not start C7-R2-03 in the same Run.
+If using `CHAT_RELAY_OUTBOX`, include the complete candidate bundle immediately below the receipt. Do not start C7-R2-04 in the same Run.
