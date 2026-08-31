@@ -1,5 +1,5 @@
 {
-  "schema":"W9_EXTERNAL_CODER_RUN_QUEUE/1.1",
+  "schema":"W9_EXTERNAL_CODER_RUN_QUEUE/1.2",
   "canonical_truth":false,
   "transport_only":true,
   "worker_id":"w9-worker-coder-7-001",
@@ -7,14 +7,15 @@
   "specialist_identity_id":"W9-CODER-7-CROSS-IMPLEMENTATION",
   "upstream_private_queue_ref":"project_control/task_feed/CODER7_RUN_QUEUE.json",
   "queue_depth":24,
-  "current_seq":3,
-  "consumed_seqs":[1,2],
+  "current_seq":4,
+  "consumed_seqs":[1,2,3],
   "dispatch_policy":"ONE_BOUNDED_ITEM_PER_HUMANROOT_RUN",
+  "full_chat_bundle_policy":"DISABLED",
   "tasks":[
     {"seq":1,"task_id":"C7-R2-01-MESSENGER-ALT-CANDIDATE","state":"CONSUMED_TRANSPORT_OUTPUT_INGESTED_UNVERIFIED"},
     {"seq":2,"task_id":"C7-R2-02-INVENTORYPORT-ALT-CANDIDATE","state":"CONSUMED_TRANSPORT_OUTPUT_INGESTED_UNVERIFIED"},
-    {"seq":3,"task_id":"C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE","state":"RELAY_RECOVERY_REQUIRED"},
-    {"seq":4,"task_id":"C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE","state":"QUEUED"},
+    {"seq":3,"task_id":"C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE","state":"CONSUMED_TRANSPORT_OUTPUT_INGESTED_UNVERIFIED"},
+    {"seq":4,"task_id":"C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE","state":"CURRENT"},
     {"seq":5,"task_id":"C7-R2-05-LOCAL-RUNTIME-ALT-CANDIDATE","state":"QUEUED"},
     {"seq":6,"task_id":"C7-R2-06-UI-ADAPTER-ALT-CANDIDATE","state":"QUEUED"},
     {"seq":7,"task_id":"C7-R2-07-CROSS-PLATFORM-ERROR-PORTABILITY","state":"QUEUED"},
@@ -40,7 +41,8 @@
     "This public queue is a transport mirror only and cannot override private Project Control.",
     "Only CURRENT_TASK.md grants the exact current bounded task for a Run.",
     "Never execute more than one item per HumanRoot Run.",
-    "A relay-recovery state re-emits prior transport evidence only and does not authorize implementation changes or consumption of the task.",
+    "Full candidate bundles MUST NOT be emitted into HumanRoot chat.",
+    "For candidate code use BRANCH_FILE_OUTBOX on the exact candidate root. If GitHub branch mutation is unavailable, return only a compact BLOCKED_TRANSPORT_NO_GITHUB_WRITE receipt and stop.",
     "Do not infer Bug Gate, integration, merge, promotion, runtime or production authority from queue membership."
   ]
 }
