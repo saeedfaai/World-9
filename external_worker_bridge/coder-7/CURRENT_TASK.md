@@ -1,62 +1,81 @@
 ---
-schema: W9_EXTERNAL_CODER_CURRENT_TASK/1.4
+schema: W9_EXTERNAL_CODER_CURRENT_TASK/1.5
 canonical_truth: false
 transport_only: true
 worker_id: w9-worker-coder-7-001
 logical_role_id: coder-7
 specialist_identity_id: W9-CODER-7-CROSS-IMPLEMENTATION
-task_id: C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE
-task_generation: 6
+task_id: C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE
+task_generation: 7
 candidate_output_authority: true
 runtime_authority: false
 queue_ref: external_worker_bridge/coder-7/RUN_QUEUE.json
 queue_depth: 24
-state: RELAY_RECOVERY_REQUIRED
+full_chat_bundle_policy: DISABLED
 ---
 
 # Coder 7 — Current Task
 
-## Exact transport binding
-
 Public repository: `saeedfaai/World-9`
-
 Public branch: `manager/external-grok-bridge-v0-1`
 
 Required reads:
-
 - `external_worker_bridge/coder-7/BRIDGE_MANIFEST.json`
 - `external_worker_bridge/coder-7/EXTERNAL_CANDIDATE_PROTOCOL.md`
 - `external_worker_bridge/coder-7/RUN_QUEUE.json`
 - this `CURRENT_TASK.md`
 
-## Recovery state
+## Prior-task boundary
 
-Project Control observed your receipt stating that the complete candidate bundle for `C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE` was already emitted through `CHAT_RELAY_OUTBOX`, but Titi does not currently possess a retrievable exact copy of that bundle for ingestion.
+`C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE` has been recovered and ingested by Titi as transport evidence. Its tests remain `NOT_EXECUTED`; this is not Bug-Gate/integration/merge/promotion/runtime/production PASS.
 
-This does **not** authorize new implementation work and does **not** consume C7-R2-03.
+Do not modify C7-R2-03 in this Run.
 
-The next HumanRoot `Run` is a bounded **transport recovery only** cycle.
+## Goal
 
-## Required action for the next Run
+Build an independent alternate deterministic append-only StockMovement reconstruction/invariant checker without treating reconstructed evidence as original source provenance and without creating a second inventory truth.
 
-Re-emit the complete previously produced `C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE` candidate bundle through `CHAT_RELAY_OUTBOX` **without changing its semantics or files**.
+Required semantics:
+- append-only StockMovement remains the reconstruction basis;
+- current stock is derived from movement history, never directly overwritten;
+- deterministic replay for identical ordered evidence;
+- detect malformed movements, duplicate/idempotency conflicts, impossible one-sided transfers and inconsistent unit/location references;
+- distinguish `OBSERVED_RUNTIME_EVIDENCE`, `RECONSTRUCTED_EVIDENCE`, and `ORIGINAL_SOURCE_PROVENANCE` and never promote one into another;
+- replay/test schemas must not be silently treated as canonical;
+- unknown/missing provenance fails closed;
+- no network, DB, secret, migration, production, merge or promotion effect.
 
-Do not:
+Required candidate bundle:
+- `MANIFEST.json`
+- `README.md`
+- language-neutral reconstruction/invariant schema(s)
+- `src/` pure reference implementation/types
+- `tests/` positive and negative falsifiers
+- `TESTS.json`
+- `HANDOFF.json`
 
-- redesign, patch or improve the prior candidate;
-- start `C7-R2-04` or any later queue item;
-- self-review;
-- claim Bug-Gate, integration, merge, promotion, runtime or production PASS;
-- change `tests=NOT_EXECUTED` unless you actually execute tests in an independently permitted environment, which this recovery cycle does not authorize.
+## Output transport — changed by HumanRoot
 
-The recovered relay must contain the complete structured bundle that was previously produced, including its receipt and all candidate files/material needed for Titi ingestion.
+**Do not print the candidate source code or full bundle into chat.**
 
-## Completion
+Use `BRANCH_FILE_OUTBOX` only and write the real candidate files directly under:
 
-Return exactly one light, then:
+`external_worker_bridge/coder-7/candidate_outbox/C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE/**`
 
-`EXTERNAL_CANDIDATE_STATUS | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE | transport=CHAT_RELAY_OUTBOX | output_ref=CHAT_RELAY_RECOVERED | tests=NOT_EXECUTED | state=READY_FOR_TITI_INGESTION | runtime_authority=false`
+Do not probe write capability with dummy/noop/placeholder files.
 
-Then include the complete recovered candidate bundle immediately below the receipt.
+If branch file create/update capability is unavailable in this Grok room, do not fall back to a full CHAT_RELAY bundle. Return only:
 
-After that, stop. Project Control will ingest it and advance the queue if evidence is sufficient.
+`🟡 YELLOW`
+
+`EXTERNAL_CANDIDATE_STATUS | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE | transport=NONE | output_ref=NONE | tests=NOT_EXECUTED | state=BLOCKED_TRANSPORT_NO_GITHUB_WRITE | runtime_authority=false`
+
+and stop. Do not start a later task.
+
+If branch writes succeed, return only the compact receipt below; do not paste file contents into chat:
+
+`🟢 GREEN`
+
+`EXTERNAL_CANDIDATE_STATUS | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE | transport=BRANCH_FILE_OUTBOX | output_ref=<exact-commit-sha> | tests=<PASS_CANDIDATE|PARTIAL|NOT_EXECUTED> | state=READY_FOR_TITI_INGESTION | runtime_authority=false`
+
+Then stop.
