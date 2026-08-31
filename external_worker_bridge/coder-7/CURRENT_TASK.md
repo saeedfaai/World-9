@@ -1,5 +1,5 @@
 ---
-schema: W9_EXTERNAL_CODER_CURRENT_TASK/1.2
+schema: W9_EXTERNAL_CODER_CURRENT_TASK/1.3
 canonical_truth: false
 transport_only: true
 worker_id: w9-worker-coder-7-001
@@ -9,6 +9,8 @@ task_id: C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE
 task_generation: 6
 candidate_output_authority: true
 runtime_authority: false
+queue_ref: external_worker_bridge/coder-7/RUN_QUEUE.json
+queue_depth: 24
 ---
 
 # Coder 7 — Current Task
@@ -23,7 +25,10 @@ Required reads:
 
 - `external_worker_bridge/coder-7/BRIDGE_MANIFEST.json`
 - `external_worker_bridge/coder-7/EXTERNAL_CANDIDATE_PROTOCOL.md`
+- `external_worker_bridge/coder-7/RUN_QUEUE.json`
 - this `CURRENT_TASK.md`
+
+The public queue now carries a deep 24-item backlog so this worker does not need to wait for unrelated lanes. Queue membership grants no extra authority. Each HumanRoot `Run` still performs exactly one bounded current task.
 
 Preferred exact branch candidate root:
 
