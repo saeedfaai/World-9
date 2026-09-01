@@ -1,5 +1,5 @@
 {
-  "schema":"W9_EXTERNAL_CODER_RUN_QUEUE/1.2",
+  "schema":"W9_EXTERNAL_CODER_RUN_QUEUE/1.3",
   "canonical_truth":false,
   "transport_only":true,
   "worker_id":"w9-worker-coder-7-001",
@@ -7,16 +7,17 @@
   "specialist_identity_id":"W9-CODER-7-CROSS-IMPLEMENTATION",
   "upstream_private_queue_ref":"project_control/task_feed/CODER7_RUN_QUEUE.json",
   "queue_depth":24,
-  "current_seq":4,
-  "consumed_seqs":[1,2,3],
+  "current_seq":5,
+  "consumed_seqs":[1,2,3,4],
   "dispatch_policy":"ONE_BOUNDED_ITEM_PER_HUMANROOT_RUN",
   "full_chat_bundle_policy":"DISABLED",
+  "transport_profile":"CHAT_COMPACT_RECIPE_OUTBOX_AFTER_CONFIRMED_GITHUB_WRITE_FAILURE",
   "tasks":[
     {"seq":1,"task_id":"C7-R2-01-MESSENGER-ALT-CANDIDATE","state":"CONSUMED_TRANSPORT_OUTPUT_INGESTED_UNVERIFIED"},
     {"seq":2,"task_id":"C7-R2-02-INVENTORYPORT-ALT-CANDIDATE","state":"CONSUMED_TRANSPORT_OUTPUT_INGESTED_UNVERIFIED"},
     {"seq":3,"task_id":"C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE","state":"CONSUMED_TRANSPORT_OUTPUT_INGESTED_UNVERIFIED"},
-    {"seq":4,"task_id":"C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE","state":"CURRENT"},
-    {"seq":5,"task_id":"C7-R2-05-LOCAL-RUNTIME-ALT-CANDIDATE","state":"QUEUED"},
+    {"seq":4,"task_id":"C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE","state":"CONSUMED_RECIPE_MATERIALIZED_PRIVATE_UNREVIEWED"},
+    {"seq":5,"task_id":"C7-R2-05-LOCAL-RUNTIME-ALT-CANDIDATE","state":"CURRENT"},
     {"seq":6,"task_id":"C7-R2-06-UI-ADAPTER-ALT-CANDIDATE","state":"QUEUED"},
     {"seq":7,"task_id":"C7-R2-07-CROSS-PLATFORM-ERROR-PORTABILITY","state":"QUEUED"},
     {"seq":8,"task_id":"C7-R2-08-INTEROP-FIXTURE-CANDIDATE","state":"QUEUED"},
@@ -41,8 +42,9 @@
     "This public queue is a transport mirror only and cannot override private Project Control.",
     "Only CURRENT_TASK.md grants the exact current bounded task for a Run.",
     "Never execute more than one item per HumanRoot Run.",
-    "Full candidate bundles MUST NOT be emitted into HumanRoot chat.",
-    "For candidate code use BRANCH_FILE_OUTBOX on the exact candidate root. If GitHub branch mutation is unavailable, return only a compact BLOCKED_TRANSPORT_NO_GITHUB_WRITE receipt and stop.",
-    "Do not infer Bug Gate, integration, merge, promotion, runtime or production authority from queue membership."
+    "Full candidate source/bundles MUST NOT be emitted into HumanRoot chat.",
+    "The external worker has confirmed no usable GitHub mutation transport; current output is compact design recipe only under COMPACT_RECIPE_PROTOCOL.md.",
+    "A GREEN compact-recipe Run means ready for Titi materialization only, not implementation/Bug Gate/integration/merge/promotion/runtime/production PASS.",
+    "Do not infer authority from queue membership."
   ]
 }
