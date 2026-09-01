@@ -1,5 +1,5 @@
 ---
-schema: W9_EXTERNAL_CODER_CURRENT_TASK/1.8
+schema: W9_EXTERNAL_CODER_CURRENT_TASK/1.9
 canonical_truth: false
 transport_only: true
 worker_id: w9-worker-coder-7-001
@@ -13,6 +13,9 @@ queue_ref: external_worker_bridge/coder-7/RUN_QUEUE.json
 queue_depth: 24
 full_chat_bundle_policy: DISABLED
 transport_state: COMPACT_RECIPE_MODE_AFTER_CONFIRMED_GITHUB_WRITE_FAILURE
+private_task_ref: project_control/task_feed/tasks/TASK-C7-R2-05-COMPACT-RECIPE.md
+private_task_blob_sha: 96ff869f55c74fd567259e283261333ad0d98a7a
+private_reconciliation_ref: project_control/reconciliations/C7_R2_04_MATERIALIZED_R2_05_DISPATCH_2026-09-01.md
 ---
 
 # Coder 7 — Current Task
@@ -28,6 +31,18 @@ Required reads:
 - `external_worker_bridge/coder-7/COMPACT_RECIPE_PROTOCOL.md`
 - `external_worker_bridge/coder-7/RUN_QUEUE.json`
 - this `CURRENT_TASK.md`
+
+## Source binding
+
+Private Project Control exact task:
+
+`project_control/task_feed/tasks/TASK-C7-R2-05-COMPACT-RECIPE.md`
+
+Exact blob:
+
+`96ff869f55c74fd567259e283261333ad0d98a7a`
+
+This public file is a transport mirror of that bounded Development task and grants no additional authority.
 
 ## Prior-task boundary
 
