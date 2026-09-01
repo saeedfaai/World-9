@@ -1,5 +1,5 @@
 ---
-schema: W9_EXTERNAL_CODER_CURRENT_TASK/1.5
+schema: W9_EXTERNAL_CODER_CURRENT_TASK/1.6
 canonical_truth: false
 transport_only: true
 worker_id: w9-worker-coder-7-001
@@ -54,28 +54,34 @@ Required candidate bundle:
 - `TESTS.json`
 - `HANDOFF.json`
 
-## Output transport — changed by HumanRoot
+## Output transport — GitHub only
 
-**Do not print the candidate source code or full bundle into chat.**
+**Do not print candidate source code or the full bundle into chat.**
 
-Use `BRANCH_FILE_OUTBOX` only and write the real candidate files directly under:
+Transport priority:
 
-`external_worker_bridge/coder-7/candidate_outbox/C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE/**`
+1. If branch file create/update capability exists, use `BRANCH_FILE_OUTBOX` and write the real files only under:
+   `external_worker_bridge/coder-7/candidate_outbox/C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE/**`
+2. If branch file mutation is unavailable but GitHub issue-comment mutation is available, use `ISSUE_COMMENT_OUTBOX` and place one complete structured bundle on issue #9:
+   `https://github.com/saeedfaai/World-9/issues/9`
+3. If neither GitHub write path exists, return only the compact YELLOW blocker receipt below.
 
-Do not probe write capability with dummy/noop/placeholder files.
+Do not probe capability using dummy/noop/placeholder writes.
 
-If branch file create/update capability is unavailable in this Grok room, do not fall back to a full CHAT_RELAY bundle. Return only:
+`CHAT_RELAY_OUTBOX` is disabled for full candidate content. Chat output is receipt-only.
+
+If neither GitHub write path exists, return only:
 
 `🟡 YELLOW`
 
 `EXTERNAL_CANDIDATE_STATUS | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE | transport=NONE | output_ref=NONE | tests=NOT_EXECUTED | state=BLOCKED_TRANSPORT_NO_GITHUB_WRITE | runtime_authority=false`
 
-and stop. Do not start a later task.
+and stop.
 
-If branch writes succeed, return only the compact receipt below; do not paste file contents into chat:
+If GitHub output succeeds, return only:
 
 `🟢 GREEN`
 
-`EXTERNAL_CANDIDATE_STATUS | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE | transport=BRANCH_FILE_OUTBOX | output_ref=<exact-commit-sha> | tests=<PASS_CANDIDATE|PARTIAL|NOT_EXECUTED> | state=READY_FOR_TITI_INGESTION | runtime_authority=false`
+`EXTERNAL_CANDIDATE_STATUS | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE | transport=<BRANCH_FILE_OUTBOX|ISSUE_COMMENT_OUTBOX> | output_ref=<exact-commit-sha|exact-issue-comment-url> | tests=<PASS_CANDIDATE|PARTIAL|NOT_EXECUTED> | state=READY_FOR_TITI_INGESTION | runtime_authority=false`
 
-Then stop.
+Do not paste file contents into chat. Then stop.
