@@ -1,5 +1,5 @@
 ---
-schema: W9_EXTERNAL_CODER_CURRENT_TASK/1.6
+schema: W9_EXTERNAL_CODER_CURRENT_TASK/1.7
 canonical_truth: false
 transport_only: true
 worker_id: w9-worker-coder-7-001
@@ -12,6 +12,7 @@ runtime_authority: false
 queue_ref: external_worker_bridge/coder-7/RUN_QUEUE.json
 queue_depth: 24
 full_chat_bundle_policy: DISABLED
+transport_state: COMPACT_RECIPE_MODE_AFTER_CONFIRMED_GITHUB_WRITE_FAILURE
 ---
 
 # Coder 7 — Current Task
@@ -22,18 +23,21 @@ Public branch: `manager/external-grok-bridge-v0-1`
 Required reads:
 - `external_worker_bridge/coder-7/BRIDGE_MANIFEST.json`
 - `external_worker_bridge/coder-7/EXTERNAL_CANDIDATE_PROTOCOL.md`
+- `external_worker_bridge/coder-7/COMPACT_RECIPE_PROTOCOL.md`
 - `external_worker_bridge/coder-7/RUN_QUEUE.json`
 - this `CURRENT_TASK.md`
 
-## Prior-task boundary
+## Confirmed transport condition
 
-`C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE` has been recovered and ingested by Titi as transport evidence. Its tests remain `NOT_EXECUTED`; this is not Bug-Gate/integration/merge/promotion/runtime/production PASS.
+The external worker already returned:
 
-Do not modify C7-R2-03 in this Run.
+`BLOCKED_TRANSPORT_NO_GITHUB_WRITE`
+
+Branch mutation returned authorization failure and issue-comment mutation was unavailable. Do not repeat GitHub capability attempts in this task and do not generate dummy/probe writes.
 
 ## Goal
 
-Build an independent alternate deterministic append-only StockMovement reconstruction/invariant checker without treating reconstructed evidence as original source provenance and without creating a second inventory truth.
+Produce the design for an independent alternate deterministic append-only StockMovement reconstruction/invariant checker without treating reconstructed evidence as original source provenance and without creating a second inventory truth.
 
 Required semantics:
 - append-only StockMovement remains the reconstruction basis;
@@ -45,43 +49,35 @@ Required semantics:
 - unknown/missing provenance fails closed;
 - no network, DB, secret, migration, production, merge or promotion effect.
 
-Required candidate bundle:
-- `MANIFEST.json`
-- `README.md`
-- language-neutral reconstruction/invariant schema(s)
-- `src/` pure reference implementation/types
-- `tests/` positive and negative falsifiers
-- `TESTS.json`
-- `HANDOFF.json`
+## Output transport — compact recipe only
 
-## Output transport — GitHub only
+Do NOT print source code, full files, a unified diff, base64, compressed source, or the full candidate bundle into chat.
 
-**Do not print candidate source code or the full bundle into chat.**
+For this exact Run, output one compact `W9_C7_COMPACT_RECIPE/1.0` recipe only, following `COMPACT_RECIPE_PROTOCOL.md`.
 
-Transport priority:
+The recipe must contain:
+- implementation_language
+- proposed_file_manifest (paths only)
+- public_interface_summary
+- invariants
+- deterministic_algorithm_steps
+- positive_test_vectors
+- negative_falsifiers
+- assumptions
+- blockers
+- tests_executed / tests_not_executed
+- provenance_note=`DESIGN_RECIPE_ONLY_NOT_SOURCE`
 
-1. If branch file create/update capability exists, use `BRANCH_FILE_OUTBOX` and write the real files only under:
-   `external_worker_bridge/coder-7/candidate_outbox/C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE/**`
-2. If branch file mutation is unavailable but GitHub issue-comment mutation is available, use `ISSUE_COMMENT_OUTBOX` and place one complete structured bundle on issue #9:
-   `https://github.com/saeedfaai/World-9/issues/9`
-3. If neither GitHub write path exists, return only the compact YELLOW blocker receipt below.
+Keep it concise; target <= 6000 characters. No complete function/class/file bodies.
 
-Do not probe capability using dummy/noop/placeholder writes.
+Project Control/Titi will materialize real source separately and will label that code as Titi-materialized from the Grok recipe. You must not claim authorship of exact materialized bytes and must not claim their tests passed.
 
-`CHAT_RELAY_OUTBOX` is disabled for full candidate content. Chat output is receipt-only.
+## Completion
 
-If neither GitHub write path exists, return only:
-
-`🟡 YELLOW`
-
-`EXTERNAL_CANDIDATE_STATUS | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE | transport=NONE | output_ref=NONE | tests=NOT_EXECUTED | state=BLOCKED_TRANSPORT_NO_GITHUB_WRITE | runtime_authority=false`
-
-and stop.
-
-If GitHub output succeeds, return only:
+Return:
 
 `🟢 GREEN`
 
-`EXTERNAL_CANDIDATE_STATUS | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE | transport=<BRANCH_FILE_OUTBOX|ISSUE_COMMENT_OUTBOX> | output_ref=<exact-commit-sha|exact-issue-comment-url> | tests=<PASS_CANDIDATE|PARTIAL|NOT_EXECUTED> | state=READY_FOR_TITI_INGESTION | runtime_authority=false`
+`EXTERNAL_RECIPE_STATUS | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE | task_generation=7 | transport=CHAT_COMPACT_RECIPE_OUTBOX | state=READY_FOR_TITI_MATERIALIZATION | tests=<executed-status-or-NOT_EXECUTED> | runtime_authority=false`
 
-Do not paste file contents into chat. Then stop.
+Then include only the compact recipe, not source code, and stop. Do not start C7-R2-05 in the same Run.
