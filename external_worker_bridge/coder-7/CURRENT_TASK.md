@@ -1,5 +1,5 @@
 ---
-schema: W9_EXTERNAL_CODER_CURRENT_TASK/1.9
+schema: W9_EXTERNAL_CODER_CURRENT_TASK/2.0
 canonical_truth: false
 transport_only: true
 worker_id: w9-worker-coder-7-001
@@ -12,10 +12,12 @@ runtime_authority: false
 queue_ref: external_worker_bridge/coder-7/RUN_QUEUE.json
 queue_depth: 24
 full_chat_bundle_policy: DISABLED
-transport_state: COMPACT_RECIPE_MODE_AFTER_CONFIRMED_GITHUB_WRITE_FAILURE
+transport_state: GOOGLE_DRIVE_DURABLE_CODE_OUTBOX
 private_task_ref: project_control/task_feed/tasks/TASK-C7-R2-05-COMPACT-RECIPE.md
-private_task_blob_sha: 96ff869f55c74fd567259e283261333ad0d98a7a
-private_reconciliation_ref: project_control/reconciliations/C7_R2_04_MATERIALIZED_R2_05_DISPATCH_2026-09-01.md
+private_task_blob_sha: 73a23af8e3abd93b7de30b8ea55513e77523e113
+drive_outbox_protocol_ref: external_worker_bridge/coder-7/DRIVE_CODE_OUTBOX_PROTOCOL.md
+drive_outbox_folder_id: 1HuS7zWoG7uiEoFZRko699r6Z4At2jpCP
+drive_outbox_document_id: 1a2XVoa1rBMR60rODT2I4sm4Abc6FnS62xvMKIFtVym0
 ---
 
 # Coder 7 — Current Task
@@ -28,7 +30,7 @@ Required reads:
 
 - `external_worker_bridge/coder-7/BRIDGE_MANIFEST.json`
 - `external_worker_bridge/coder-7/EXTERNAL_CANDIDATE_PROTOCOL.md`
-- `external_worker_bridge/coder-7/COMPACT_RECIPE_PROTOCOL.md`
+- `external_worker_bridge/coder-7/DRIVE_CODE_OUTBOX_PROTOCOL.md`
 - `external_worker_bridge/coder-7/RUN_QUEUE.json`
 - this `CURRENT_TASK.md`
 
@@ -38,75 +40,46 @@ Private Project Control exact task:
 
 `project_control/task_feed/tasks/TASK-C7-R2-05-COMPACT-RECIPE.md`
 
-Exact blob:
+Exact current blob:
 
-`96ff869f55c74fd567259e283261333ad0d98a7a`
+`73a23af8e3abd93b7de30b8ea55513e77523e113`
 
-This public file is a transport mirror of that bounded Development task and grants no additional authority.
-
-## Prior-task boundary
-
-`C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE` compact recipe was received and Titi/Project Control materialized it into durable private Development evidence. Grok did not author the exact materialized bytes and did not execute their tests. Independent gate remains separate.
-
-Do not modify or re-emit C7-R2-04 in this Run.
+Task id/generation did not change. Only the external transport was upgraded from recipe relay to durable exact-source outbox.
 
 ## Goal
 
-Produce the design recipe for an alternate provider/language-neutral **local/offline Runtime Host** candidate that preserves governed World 9 authority/effect boundaries and never creates a second truth.
+Author the complete exact source candidate for an alternate provider/language-neutral local/offline Runtime Host preserving governed World 9 authority/effect boundaries and no second truth.
 
-The design must support replaceable executable modules behind a stable protocol without making Python, TypeScript, Node, Grok, GitHub, Supabase, a cloud provider, or any particular process launcher part of the architecture.
+Required semantics remain: small Runtime Host, replaceable modules, long-lived worker/session model, ACTIVE/SHADOW/FALLBACK roles, proposal/receipt outputs, no self-authorization, fail-closed authority/state, opaque refs instead of raw secrets, deterministic correlation/idempotency, explicit crash/timeout/stale/malformed/unavailable recovery, no second truth, no sixth W8 plane.
 
-## Required architecture semantics
+## Output transport — durable exact source
 
-- Small Runtime Host; executable modules are replaceable implementations behind a language-neutral protocol.
-- Long-lived worker/session model preferred; do not require spawn-per-call.
-- Explicit module execution roles: `ACTIVE`, `SHADOW`, `FALLBACK`.
-- Only a separately governed ACTIVE path may later feed canonical effects; SHADOW/FALLBACK outputs are evidence/proposals only until governed selection.
-- Runtime Host/modules emit proposals/receipts; they do not directly write canonical truth and do not self-authorize.
-- Host-supplied authority context is explicit. Missing, stale or unknown authority/state fails closed.
-- Stable opaque refs/handles only; no raw secret values in protocol payloads.
-- Deterministic request/receipt correlation and idempotency/reconciliation semantics.
-- Unknown execution/writer state is never reported as committed success.
-- Explicit restart/recovery behavior for worker crash, timeout, stale worker, malformed output and unavailable implementation.
-- No second inventory truth, no sixth W8 plane, no production/runtime authority granted by this design task.
-- No network, DB write, migration, secret access, provider mutation, merge, promotion or production effect.
+Do not retry GitHub mutation; its 403 write limitation is already confirmed.
 
-## Required compact recipe content
+Use Google Drive write tools instead. Write the complete exact candidate into this pre-created bound document:
 
-Follow `COMPACT_RECIPE_PROTOCOL.md` and include, concisely:
+`1a2XVoa1rBMR60rODT2I4sm4Abc6FnS62xvMKIFtVym0`
 
-- `implementation_language`
-- `proposed_file_manifest` (paths only)
-- `public_interface_summary`
-- `module_host_protocol_summary`
-- `authority_effect_boundaries`
-- `active_shadow_fallback_semantics`
-- `long_lived_worker_lifecycle`
-- `receipt_and_proposal_model`
-- `failure_recovery_state_machine`
-- `invariants`
-- `deterministic_algorithm_steps`
-- `positive_test_vectors`
-- `negative_falsifiers`
-- `assumptions`
-- `blockers`
-- `tests_executed` / `tests_not_executed`
-- `provenance_note=DESIGN_RECIPE_ONLY_NOT_SOURCE`
+Folder:
 
-## Output transport — compact recipe only
+`1HuS7zWoG7uiEoFZRko699r6Z4At2jpCP`
 
-The external worker has already confirmed that both available GitHub mutation paths are unavailable. Do not retry GitHub write capability and do not create probe/dummy writes.
+Follow `DRIVE_CODE_OUTBOX_PROTOCOL.md`. Under the existing marker, write deterministic `=== FILE: path ===` / `=== END FILE ===` sections containing MANIFEST.json, README.md, implementation source, tests, TESTS.json and HANDOFF.json.
 
-Do NOT print complete source code, full function/class bodies, full files, unified diffs, base64/hex/compressed source, or a complete candidate bundle into chat.
+This is full exact source output to a durable transport, not a compact recipe. Do not place complete source in HumanRoot chat.
 
-Output exactly one compact design recipe for this task. Titi/Project Control will materialize exact source separately and record authorship/provenance accurately.
+Project Control will import the exact Drive-authored bytes into the private candidate root without semantic edits. If revision attribution and byte preservation verify, provenance may state `grok_exact_source_authorship=true`.
+
+## Safety
+
+No private-source copying, secrets, production data, DB writes, migrations, provider mutation, merge, promotion, canonical effects or runtime authority. Tests must remain `NOT_EXECUTED` unless actually executed.
 
 ## Completion
 
-Return:
+Return only:
 
 `🟢 GREEN`
 
-`EXTERNAL_RECIPE_STATUS | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-05-LOCAL-RUNTIME-ALT-CANDIDATE | task_generation=8 | transport=CHAT_COMPACT_RECIPE_OUTBOX | state=READY_FOR_TITI_MATERIALIZATION | tests=<executed-status-or-NOT_EXECUTED> | runtime_authority=false`
+`EXTERNAL_CANDIDATE_STATUS | worker_id=w9-worker-coder-7-001 | task_id=C7-R2-05-LOCAL-RUNTIME-ALT-CANDIDATE | task_generation=8 | transport=GOOGLE_DRIVE_CODE_OUTBOX | output_ref=1a2XVoa1rBMR60rODT2I4sm4Abc6FnS62xvMKIFtVym0 | tests=<executed-status-or-NOT_EXECUTED> | state=READY_FOR_TITI_INGESTION | runtime_authority=false`
 
-Then include only the compact recipe and stop. Do not start C7-R2-06 in the same Run.
+If and only if Google Drive write is unavailable in your worker environment, return a short `BLOCKED_TRANSPORT_NO_DRIVE_WRITE` receipt and stop. Never dump the source into chat.
