@@ -1,5 +1,5 @@
 {
-  "schema":"W9_EXTERNAL_WORKER_BRIDGE_MANIFEST/1.5",
+  "schema":"W9_EXTERNAL_WORKER_BRIDGE_MANIFEST/1.6",
   "canonical_truth":false,
   "transport_only":true,
   "worker_id":"w9-worker-coder-7-001",
@@ -16,13 +16,14 @@
     "queue":{"path":"project_control/task_feed/CODER7_RUN_QUEUE.json","blob":"32e553cdc895d733b413ae1450abac38f9a57cb6"},
     "base_permit":{"path":"project_control/permits/CODER7_ROUND_02_QUEUE_PERMIT.json","blob":"a94041cb64fb2d261ecdaf1e565398705863df9f"},
     "qualification":{"path":"project_control/academy/CODER7_GROK_QUALIFICATION.md","blob":"fd40ce173a73dff303da2e5b1827ea1bd0282690"},
-    "external_transport_permit":{"path":"project_control/permits/CODER7_EXTERNAL_CANDIDATE_TRANSPORT.md","blob":"f44549e46ea995aff149e8d3995be2d7470d633a"},
+    "external_transport_permit":{"path":"project_control/permits/CODER7_EXTERNAL_CANDIDATE_TRANSPORT.md","blob":"564e2ad1162725e01076f98c6b363b7bbe9beac4"},
     "previous_ingestion":{"path":"project_control/candidate_capsules/w9-worker-coder-7-001/C7-R2-03-SECURITY-POLICY-ALT-CANDIDATE/INGESTION.json","state":"INGESTED_TRANSPORT_EVIDENCE_UNVERIFIED","tests":"NOT_EXECUTED"}
   },
   "public_refs":{
     "candidate_protocol":{"path":"external_worker_bridge/coder-7/EXTERNAL_CANDIDATE_PROTOCOL.md","blob":"52c961a2a823e54144acc03e4f7600a00abf7130"},
     "run_queue":{"path":"external_worker_bridge/coder-7/RUN_QUEUE.json","blob":"c77698730f2e88bddb6420e1033dae2f597967d7"},
-    "current_task":{"path":"external_worker_bridge/coder-7/CURRENT_TASK.md","blob":"ae45455547698cd23c9f46e91e2fbe94e404a5cc"}
+    "current_task":{"path":"external_worker_bridge/coder-7/CURRENT_TASK.md","blob":"307f050c149342d234119807587fe15c8f23ea60"},
+    "fallback_issue":{"url":"https://github.com/saeedfaai/World-9/issues/9"}
   },
   "current_bridge_cycle":"C7_R2_04_RECONSTRUCTION_ALT_CANDIDATE",
   "queue_depth":24,
@@ -30,7 +31,7 @@
   "admission_state":"ADMISSION_READY_EXTERNAL_TRANSPORT",
   "candidate_output_authority":true,
   "preferred_candidate_write_scope":"external_worker_bridge/coder-7/candidate_outbox/C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE/**",
-  "authorized_transports":["BRANCH_FILE_OUTBOX"],
+  "authorized_transports":["BRANCH_FILE_OUTBOX","ISSUE_COMMENT_OUTBOX"],
   "full_chat_bundle_policy":"DISABLED_BY_HUMANROOT",
   "runtime_authority":false,
   "rules":[
@@ -40,6 +41,6 @@
     "No private source may be copied, reconstructed or exposed through this public bridge.",
     "No dummy/probe/noop/placeholder/test-write capability probes.",
     "No secrets, production data, credentials, DB writes, migrations, merge, promotion or canonical effects.",
-    "Full candidate source/bundles must not be emitted to HumanRoot chat; if GitHub branch write is unavailable, return compact BLOCKED_TRANSPORT_NO_GITHUB_WRITE and stop."
+    "Full candidate source/bundles must not be emitted to HumanRoot chat. Prefer branch files; if unavailable, use exact issue #9; if neither GitHub mutation path exists, return a compact blocker receipt and stop."
   ]
 }
