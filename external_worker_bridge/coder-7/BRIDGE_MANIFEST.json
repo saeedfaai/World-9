@@ -1,5 +1,5 @@
 {
-  "schema":"W9_EXTERNAL_WORKER_BRIDGE_MANIFEST/1.7",
+  "schema":"W9_EXTERNAL_WORKER_BRIDGE_MANIFEST/1.8",
   "canonical_truth":false,
   "transport_only":true,
   "worker_id":"w9-worker-coder-7-001",
@@ -8,7 +8,7 @@
   "transport_profile":"GROK_EXTERNAL_NO_GITHUB_WRITE_RECIPE_MODE",
   "upstream_private_repository":"saeedfaai/world-9-runtime",
   "upstream_control_branch":"manager/w9-project-control-v0-1",
-  "current_bridge_cycle":"C7_R2_04_RECONSTRUCTION_ALT_CANDIDATE",
+  "current_bridge_cycle":"C7_R2_05_LOCAL_RUNTIME_ALT_CANDIDATE",
   "queue_depth":24,
   "qualification_state":"PREFLIGHT_QUALIFIED",
   "admission_state":"ADMISSION_READY_EXTERNAL_TRANSPORT",
@@ -17,6 +17,11 @@
   "authorized_transports":["CHAT_COMPACT_RECIPE_OUTBOX"],
   "compact_recipe_protocol":"external_worker_bridge/coder-7/COMPACT_RECIPE_PROTOCOL.md",
   "current_task":"external_worker_bridge/coder-7/CURRENT_TASK.md",
+  "previous_task":"C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE",
+  "previous_task_disposition":"GREEN_RECIPE_RECEIVED__TITI_MATERIALIZED_PRIVATE_CANDIDATE__INDEPENDENT_GATE_NOT_EXECUTED",
+  "private_materialization_ref":"project_control/candidate_capsules/w9-worker-coder-7-001/C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE/",
+  "private_materialization_commit":"84d645e170a3d28bb7a6ab6123f5f1a15bfb9142",
+  "private_materialization_module_sha256":"31974587bb87d811e0933d24276061d77797418bdc2f418812f289327a483e70",
   "full_chat_bundle_policy":"DISABLED_BY_HUMANROOT",
   "runtime_authority":false,
   "rules":[
@@ -27,6 +32,7 @@
     "No dummy/probe/noop/placeholder/test-write capability probes.",
     "No secrets, production data, credentials, DB writes, migrations, merge, promotion or canonical effects.",
     "Full source/bundles must not be emitted to HumanRoot chat.",
-    "When GitHub mutation is unavailable, Coder 7 may emit only a compact design recipe under COMPACT_RECIPE_PROTOCOL; Titi materializes real source separately with explicit provenance."
+    "Coder 7 emits compact design recipe only; Titi materializes real source separately and records exact authorship/provenance.",
+    "GREEN recipe completion means ready for materialization only, never Bug Gate/integration/runtime/production PASS."
   ]
 }
