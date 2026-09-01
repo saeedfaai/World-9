@@ -1,11 +1,11 @@
 {
-  "schema":"W9_EXTERNAL_WORKER_BRIDGE_MANIFEST/1.8",
+  "schema":"W9_EXTERNAL_WORKER_BRIDGE_MANIFEST/2.0",
   "canonical_truth":false,
   "transport_only":true,
   "worker_id":"w9-worker-coder-7-001",
   "logical_role_id":"coder-7",
   "specialist_identity_id":"W9-CODER-7-CROSS-IMPLEMENTATION",
-  "transport_profile":"GROK_EXTERNAL_NO_GITHUB_WRITE_RECIPE_MODE",
+  "transport_profile":"GROK_EXTERNAL_DRIVE_DURABLE_CODE_OUTBOX",
   "upstream_private_repository":"saeedfaai/world-9-runtime",
   "upstream_control_branch":"manager/w9-project-control-v0-1",
   "current_bridge_cycle":"C7_R2_05_LOCAL_RUNTIME_ALT_CANDIDATE",
@@ -13,15 +13,14 @@
   "qualification_state":"PREFLIGHT_QUALIFIED",
   "admission_state":"ADMISSION_READY_EXTERNAL_TRANSPORT",
   "candidate_output_authority":true,
-  "confirmed_transport_constraint":"BRANCH_AND_ISSUE_GITHUB_MUTATION_UNAVAILABLE_TO_EXTERNAL_WORKER",
-  "authorized_transports":["CHAT_COMPACT_RECIPE_OUTBOX"],
-  "compact_recipe_protocol":"external_worker_bridge/coder-7/COMPACT_RECIPE_PROTOCOL.md",
+  "confirmed_transport_constraint":"GITHUB_BRANCH_AND_ISSUE_MUTATION_403",
+  "authorized_transports":["GOOGLE_DRIVE_CODE_OUTBOX"],
+  "drive_code_outbox_protocol":"external_worker_bridge/coder-7/DRIVE_CODE_OUTBOX_PROTOCOL.md",
+  "drive_outbox_folder_id":"1HuS7zWoG7uiEoFZRko699r6Z4At2jpCP",
+  "drive_outbox_document_id":"1a2XVoa1rBMR60rODT2I4sm4Abc6FnS62xvMKIFtVym0",
   "current_task":"external_worker_bridge/coder-7/CURRENT_TASK.md",
   "previous_task":"C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE",
   "previous_task_disposition":"GREEN_RECIPE_RECEIVED__TITI_MATERIALIZED_PRIVATE_CANDIDATE__INDEPENDENT_GATE_NOT_EXECUTED",
-  "private_materialization_ref":"project_control/candidate_capsules/w9-worker-coder-7-001/C7-R2-04-RECONSTRUCTION-ALT-CANDIDATE/",
-  "private_materialization_commit":"84d645e170a3d28bb7a6ab6123f5f1a15bfb9142",
-  "private_materialization_module_sha256":"31974587bb87d811e0933d24276061d77797418bdc2f418812f289327a483e70",
   "full_chat_bundle_policy":"DISABLED_BY_HUMANROOT",
   "runtime_authority":false,
   "rules":[
@@ -32,7 +31,8 @@
     "No dummy/probe/noop/placeholder/test-write capability probes.",
     "No secrets, production data, credentials, DB writes, migrations, merge, promotion or canonical effects.",
     "Full source/bundles must not be emitted to HumanRoot chat.",
-    "Coder 7 emits compact design recipe only; Titi materializes real source separately and records exact authorship/provenance.",
-    "GREEN recipe completion means ready for materialization only, never Bug Gate/integration/runtime/production PASS."
+    "Coder 7 writes complete exact source into the bound Google Drive code outbox; Project Control performs byte-preserving ingestion into the private candidate root.",
+    "Drive is transport/evidence only and never canonical truth.",
+    "GREEN means durable candidate transport complete only, never Bug Gate/integration/runtime/production PASS."
   ]
 }
